@@ -1,64 +1,69 @@
 <template>
-    <section>
-        <b-field label="Название продукта">
-            <b-input
-                type="text"
-                :value="value.name"
-                placeholder="Введите название продукта"
-                @input="update('name', $event)">
-            </b-input>
-        </b-field>
-        <b-field label="Описание продукта">
-            <b-input
-                type="textarea"
-                :value="value.description"
-                placeholder="Введите описание продукта"
-                @input="update('description', $event)">
-            </b-input>
-        </b-field>
-        <b-field label="Местоположение">
-            <b-input
-                type="text"
-                :value="value.location"
-                placeholder="Введите местоположение продукта"
-                @input="update('location', $event)">
-            </b-input>
-        </b-field>
-        <b-field label="Дата доставки">
-            <b-input
-                type="date"
-                :value="value.date"
-                @input="update('date', $event)">
-            </b-input>
-        </b-field>
-        <b-field label="Количество">
-            <b-input
-                type="number"
-                :value="value.count"
-                @input="update('count', $event)">
-            </b-input>
-        </b-field>
-        <b-field label="Страна">
-            <b-select placeholder="Выберите страну" 
-                :value="value.country"
-                @input="update('country', $event)">
-                    <option
-                        v-for="country in countries"
-                        :value="country.name"
-                        :key="country.id">
-                        {{ country.name }}
-                    </option>
-            </b-select>
-        </b-field>
-        <b-field label="Комментарий">
-            <b-input
-                type="textarea"
-                :value="value.comment"
-                placeholder="Введите комментарий"
-                @input="update('comment', $event)">
-            </b-input>
-        </b-field>
-        <!--
+  <section>
+    <b-field label="Название продукта">
+      <b-input
+        type="text"
+        :value="value.name"
+        placeholder="Введите название продукта"
+        @input="update('name', $event)"
+      >
+      </b-input>
+    </b-field>
+    <b-field label="Описание продукта">
+      <b-input
+        type="textarea"
+        :value="value.description"
+        placeholder="Введите описание продукта"
+        @input="update('description', $event)"
+      >
+      </b-input>
+    </b-field>
+    <b-field label="Местоположение">
+      <b-input
+        type="text"
+        :value="value.location"
+        placeholder="Введите местоположение продукта"
+        @input="update('location', $event)"
+      >
+      </b-input>
+    </b-field>
+    <b-field label="Дата доставки">
+      <b-input type="date" :value="value.date" @input="update('date', $event)">
+      </b-input>
+    </b-field>
+    <b-field label="Количество">
+      <b-input
+        type="number"
+        :value="value.count"
+        @input="update('count', $event)"
+      >
+      </b-input>
+    </b-field>
+    <b-field label="Страна">
+      <b-select
+        placeholder="Выберите страну"
+        :value="value.country"
+        @input="update('country', $event)"
+      >
+        <option
+          v-for="country in countries"
+          :value="country.name"
+          :key="country.id"
+        >
+          {{ country.name }}
+        </option>
+      </b-select>
+    </b-field>
+    <b-field label="Комментарий">
+      <b-input
+        type="textarea"
+        :value="value.comment"
+        placeholder="Введите комментарий"
+        @input="update('comment', $event)"
+      >
+      </b-input>
+    </b-field>
+    <!--
         <input :value="value.name" placeholder="Введите название товара" @input="update('name', $event.target.value)">
         <p/>
         <textarea :value="value.description" placeholder="Введите описание товара" @input="update('description', $event.target.value)"></textarea>
@@ -85,7 +90,7 @@
         <p/>
         <textarea v-if="showComment" :value="value.comment" placeholder="Введите коментарий к товару" @input="update('comment', $event.target.value)"></textarea>
         -->
-        <!--
+    <!--
         <PropertyPicker description="Дата доставки">
             <input type="date" :value="value.date" @input="update('date', $event.target.value)">
         </PropertyPicker>
@@ -107,43 +112,43 @@
         </PropertyPicker>
         <p/>
         -->
-    </section>
+  </section>
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
-    import axios from 'axios';
-    import ImageInput from './ImageInput.vue';
-    import PropertyPicker from './PropertyPicker.vue';
+import { Component, Vue, Watch, Prop } from 'vue-property-decorator';
+import axios from 'axios';
+import ImageInput from './ImageInput.vue';
+import PropertyPicker from './PropertyPicker.vue';
 
-    @Component({
-        components: { ImageInput, PropertyPicker }
-    })
-    export default class ProductInfo extends Vue {
-        @Prop({
-            type: Object
-        })
-        private value: any;
-        private localDate: string = "";
-        private showDate: boolean = false;
-        private showCount: boolean = false;
-        private showCountry: boolean = false;
-        private showComment: boolean = false;
-        private countries: any[] = [
-            { id: 1, name: "Россия" },
-            { id: 2, name: "Германия" },
-            { id: 3, name: "Испания" },
-        ];
+@Component({
+  components: { ImageInput, PropertyPicker },
+})
+export default class ProductInfo extends Vue {
+  @Prop({
+    type: Object,
+  })
+  private value: any;
+  private localDate: string = '';
+  private showDate: boolean = false;
+  private showCount: boolean = false;
+  private showCountry: boolean = false;
+  private showComment: boolean = false;
+  private countries: any[] = [
+    { id: 1, name: 'Россия' },
+    { id: 2, name: 'Германия' },
+    { id: 3, name: 'Испания' },
+  ];
 
-        @Watch('value.count')
-        transformCount() {
-            if (this.value.count) {
-                this.value.count = this.value.count as string; 
-            }
-        }
-
-        update(key: any, value: any) {
-            this.$emit('input', { ...this.value, [key]: value });
-        }
+  @Watch('value.count')
+  transformCount() {
+    if (this.value.count) {
+      this.value.count = this.value.count as string;
     }
+  }
+
+  update(key: any, value: any) {
+    this.$emit('input', { ...this.value, [key]: value });
+  }
+}
 </script>

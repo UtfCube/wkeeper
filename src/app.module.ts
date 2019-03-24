@@ -4,9 +4,6 @@ import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    ProductsModule,
-  ],
+  imports: [TypeOrmModule.forRoot(), ProductsModule],
 })
 export class AppModule {}

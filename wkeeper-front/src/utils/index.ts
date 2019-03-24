@@ -1,7 +1,7 @@
-import Vue from 'vue'
+import Vue from 'vue';
 
 export const DialogError = {
-    title: "Ошибка",
-    message: "",
-    type: 'is-danger',
-}
+  title: 'Ошибка',
+  message: '',
+  type: 'is-danger',
+};

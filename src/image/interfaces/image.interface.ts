@@ -1,3 +1,3 @@
 export interface IImage {
-    readonly path: string;
+  readonly path: string;
 }
