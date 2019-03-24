@@ -5,7 +5,7 @@ export class CreateProductDto {
     @IsString() readonly description: string;
     @IsString() readonly location: string;
     @IsDateString() readonly date?: string;
-    @IsNumber() readonly count?: string;
+    @IsNumber() readonly count?: number;
     @IsString() readonly country?: string;
     @IsString() readonly comment?: string;
 }

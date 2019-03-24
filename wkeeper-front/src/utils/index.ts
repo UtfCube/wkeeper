@@ -1,3 +1,7 @@
 import Vue from 'vue'
 
-export const EventBus: Vue = new Vue() 
+export const DialogError = {
+    title: "Ошибка",
+    message: "",
+    type: 'is-danger',
+}

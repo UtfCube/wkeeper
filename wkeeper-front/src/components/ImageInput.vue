@@ -1,7 +1,7 @@
 <template>
     <div class="info">
         <div @click="launchFilePicker">
-            <img :src="value.url" width="255" height="255" alt="картинка не найдена">
+            <img :src="value.url" width="256" height="256" alt="картинка не найдена">
         </div>
         <input type='file' ref='file' style="display:none" @change="handleFileUpload($event.target.files)">
     </div>
@@ -14,7 +14,7 @@
     export default class ImageInput extends Vue {
         @Prop({ 
             type: Object, 
-            }) value: object = {};
+            }) value: object;
         private url: string = "";
         private img: any;
 

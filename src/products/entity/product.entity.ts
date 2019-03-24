@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Image } from 'src/image/entity/image.entity';
 
 @Entity()
 export class Product {
@@ -14,9 +15,6 @@ export class Product {
     @Column({ length: 200, nullable: true })
     location: string;
 
-    @Column('text', { nullable: true })
-    image: string;
-
     @Column({ nullable: true })
     date: Date;
     
@@ -28,4 +26,12 @@ export class Product {
 
     @Column('text', { nullable: true })
     comment: string;
+    
+    @OneToOne(type => Image, image => image.product, {
+        cascade: true,
+        eager: true,
+        onDelete:'CASCADE',
+    })
+    @JoinColumn()
+    image: Image;
 }

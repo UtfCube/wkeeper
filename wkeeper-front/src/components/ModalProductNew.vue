@@ -1,10 +1,18 @@
 <template>
-    <div class="content">
-        <ImageInput v-model="imgInfo"/>
-            <!--<img slot="activator" :src="imgInfo.url" width="255" height="255" alt="картинка не найдена">
-        </ImageInput>-->
-        <ProductInfo v-model="product"/>
-        <button @click="submit">Добавить товар</button>
+    <div class="modal-card" >
+        <header class="modal-card-head">
+            <p class="modal-card-title">Информация о продукте</p>
+            <button class="delete" @click="$parent.close()" aria-label="close"></button>
+        </header>
+
+        <section class="modal-card-body">
+            <ImageInput v-model="imgInfo"/>
+            <ProductInfo v-model="product"/>
+        </section>
+
+        <footer class="modal-card-foot">
+            <button class="button is-primary" @click="submit">Сохранить продукт</button>
+        </footer>
     </div>
 </template>
 
@@ -49,3 +57,4 @@
         }       
     }
 </script>
+

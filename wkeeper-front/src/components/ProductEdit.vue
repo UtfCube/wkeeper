@@ -1,34 +1,35 @@
 <template>
-    <div class="product-edit">
-        <div v-if="loading" class="loading">
-            Загрузка...
-        </div>
+    <div class="modal-card" style="width: auto">
+        <section class="modal-card-body">
+            <div v-if="loading" class="loading">
+                Загрузка...
+            </div>
 
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
+            <div v-if="error" class="error">
+                {{ error }}
+            </div>
 
-        <div v-if="product" class="content">
-            <ImageInput v-model="imgInfo"/>
-            <ProductInfo v-model="product"/>
-            <button @click="save">Сохранить изменения</button>
-            <button @click="deleteProduct">Удалить товар</button>
-        </div>
+            <div v-if="product" class="content">
+                <ImageInput v-model="imgInfo"/>
+                <ProductInfo v-model="product"/>
+                <button @click="save">Сохранить изменения</button>
+                <button @click="deleteProduct">Удалить товар</button>
+            </div>
+
+        </section>
     </div>
-    
 </template>
 
 <script lang='ts'>
-    import { Component, Vue, Watch } from 'vue-property-decorator';
+    import { Component, Vue } from 'vue-property-decorator';
     import axios from 'axios';
-    import { EventBus } from '../utils';
-    import { Product } from '../interfaces/product.interface';
+    //import { Product } from '../interfaces/product.interface';
     import ImageInput from './ImageInput.vue';
     import ProductInfo from './ProductInfo.vue';
-    import PropertyPicker from './PropertyPicker.vue';
+    import { DialogError } from '@/utils';
 
     @Component({
-        components: { ImageInput, ProductInfo, PropertyPicker }
+        components: { ImageInput, ProductInfo }
     })
     export default class ProductEdit extends Vue {
         private loading: boolean = false;
@@ -38,7 +39,7 @@
             return this.$store.getters.currentProduct;
         }
         set product(product: any) {
-            this.$store.commit('', { product: product });
+            this.$store.commit('setCurrentProduct', { product: product });
         }
         get imgInfo () {
             return this.$store.state.currentImgInfo;
@@ -47,42 +48,33 @@
             this.$store.commit('setCurrentImageInfo', { imgInfo: imgInfo });
         }
 
-        mounted () {
-            EventBus.$on('successDeleteProduct', () => {
+        async beforeMount() {
+            if (Object.keys(this.product).length === 0 && this.product.constructor === Object) {
+                const error = await this.$store.dispatch('getProduct', this.$route.params.id);
+                if (error) {
+                    this.$dialog.alert({ ...DialogError, message: error });
+                }
+            }
+        }
+
+       async save () {
+            const error = await this.$store.dispatch('updateImage', this.$route.params.id);
+            if (error) {
+                this.$dialog.alert({ ...DialogError, message: error });
+            }
+            else {
+                this.$dialog.alert("Изменения успешно сохранены");
+            }
+        }
+
+        async deleteProduct () {
+            const error = await this.$store.dispatch('deleteProduct', this.$route.params.id);
+            if (error) {
+                this.$dialog.alert({ ...DialogError, message: error });
+            }
+            else {
                 this.$router.push({ name: 'products'});
-            })
-            EventBus.$on('failedDeleteProduct', (msg: any) => {
-                alert(`Ошибка при удалении продукта: ${msg}`)
-            })
-            EventBus.$on('failedGetProduct', (msg: any) => {
-                alert(`Ошибка при получении продукта: ${msg}`)
-            })
-            EventBus.$on('failedUpdateProduct', (msg: any) => {
-                alert(`Ошибка при сохранении изменений: ${msg}`)
-            })
-            EventBus.$on('failedUpdateImage', (msg: any) => {
-                alert(`Ошибка при сохранении изменений: ${msg}`)
-            })
-        }
-
-        beforeDestroy () {
-            EventBus.$off('successDeleteProduct');
-            EventBus.$off('failedDeleteProduct');
-            EventBus.$off('failedGetProduct');
-            EventBus.$off('failedUpdateProduct');
-            EventBus.$off('failedUpdateImage');
-        }
-
-        beforeMount() {
-            this.$store.dispatch('getProduct', this.$route.params.id);
-        }
-
-       save () {
-            this.$store.dispatch('updateProduct', this.$route.params.id);
-        }
-
-        deleteProduct () {
-            this.$store.dispatch('deleteProduct', this.$route.params.id);
+            }
         }
     }
 </script>

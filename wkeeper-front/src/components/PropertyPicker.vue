@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span @click="pick">{{ local }}</span>
+        <span @click="pick">{{ description }}</span>
         <slot v-if="show"/>
     </div>
 </template>
@@ -11,8 +11,7 @@
     @Component
     export default class PropertyPicker extends Vue {
         @Prop()
-        private description: string = "";
-        private local: string = this.description;
+        private description: string;
         private show: boolean = false;
         
         pick() {

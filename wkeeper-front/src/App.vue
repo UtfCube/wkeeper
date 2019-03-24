@@ -1,17 +1,20 @@
 <template>
     <div id="app">
-        <router-link :to="{ name: 'products' }">Home</router-link>
+        <Header></Header>
         <router-view></router-view>
     </div>
 </template>
 
 <script lang="ts">
+import Header from '@/components/Header.vue'
 import { Component, Vue } from 'vue-property-decorator';
 // TODO add header
-@Component
+@Component({
+    components: {Header}
+})
 export default class App extends Vue {}
 </script>
-
+<!--
 <style>
     #app {
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -22,3 +25,4 @@ export default class App extends Vue {}
         margin-top: 60px;
     }
 </style>
+-->

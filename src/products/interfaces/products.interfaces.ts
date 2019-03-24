@@ -3,5 +3,8 @@ export interface IProduct {
     readonly name: string;
     readonly description: string;
     readonly location: string;
-    image?: string;
+    readonly date?: string;
+    readonly count?: number;
+    readonly country?: string;
+    readonly comment?: string;
 }
